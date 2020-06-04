@@ -1,0 +1,10 @@
+#sidebar-container.wpseo_content_cell{display: none!important;}
+.MetaboxWarning__WarningBox-a7mbql-1{display: none!important;}
+#yoast-seo-dashboard-widget  #yoast-seo-ryte-assessment{ display: none;}
+#yoast-seo-dashboard-widget .wordpress-feed{ display: none;}
+#updates_dw.rs-dash-widget, .rs-dashboard, #message.rs-update-notice-wrap{display: none!important;}
+#wpbody-content .updated.below-h2.rs-update-notice-wrap#message{ display: none!important;}
+.wp-list-table .plugin-update-tr .plugin-update.colspanchange .update-message.installer-q-icon{ display: none!important;}
+.yoast-container.yoast-container__alert #yoast-alerts-dismissed{display: none;}
+.wf-admin-notice.notice.notice-error{display: none!important;}
+.acf-input input{min-height: 14px;}
