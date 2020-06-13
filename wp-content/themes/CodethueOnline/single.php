@@ -11,50 +11,36 @@
 
 get_header();
 ?>
+<?php if ($post->post_type == "product") {?>
+<?php get_template_part('sections/details-product');} else{?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
-
-			<?php
-
-			// Start the Loop.
-			while ( have_posts() ) :
-				the_post();
-
-				get_template_part( 'template-parts/content/content', 'single' );
-
-				if ( is_singular( 'attachment' ) ) {
-					// Parent post navigation.
-					the_post_navigation(
-						array(
-							/* translators: %s: Parent post link. */
-							'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', 'twentynineteen' ), '%title' ),
-						)
-					);
-				} elseif ( is_singular( 'post' ) ) {
-					// Previous/next post navigation.
-					the_post_navigation(
-						array(
-							'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', 'twentynineteen' ) . '</span> ' .
-								'<span class="screen-reader-text">' . __( 'Next post:', 'twentynineteen' ) . '</span> <br/>' .
-								'<span class="post-title">%title</span>',
-							'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', 'twentynineteen' ) . '</span> ' .
-								'<span class="screen-reader-text">' . __( 'Previous post:', 'twentynineteen' ) . '</span> <br/>' .
-								'<span class="post-title">%title</span>',
-						)
-					);
-				}
-
-				// If comments are open or we have at least one comment, load up the comment template.
-				if ( comments_open() || get_comments_number() ) {
-					comments_template();
-				}
-
-			endwhile; // End the loop.
-			?>
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
-
+<section class="ct-post-details pd-top-bot-20">
+    <div class="container">
+        <div class="row">
+        <?php 
+        if (have_posts()) : while(have_posts()) : the_post()
+        ?>
+            <div class="col-lg-8 col-12">
+                <div class="album-product">
+					<!--<img class="ct-img-post" src="//get_the_post_thumbnail_url()" alt="" title="">-->
+                    <p class="ct-date-post-latest"><i class="fa fa-calendar" aria-hidden="true"></i>  <?=get_the_date()?></p>
+				</div>
+				<div class="ct-content-post">
+				<h1 class="text-up"><?=get_the_title()?></h1>
+					<?=get_the_content() ?>
+				</div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="details-product">
+                <h1 class="text-up"><?=get_the_title()?></h1>
+                
+                </div>
+            </div> 
+        <?php endwhile; endif; ?>    
+        </div>
+    </div>
+</section>
 <?php
+}
 get_footer();
+?>

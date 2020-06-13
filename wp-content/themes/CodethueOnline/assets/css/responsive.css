@@ -1,6 +1,8 @@
 @media screen and (max-width: 1024px) {
 	.mobile-hide{display: none !important;}
-
+	.ct-product .ct-shoes-name{height: 30px !important;}
+	.ct__form_sub .ct-subscribe__form > input{font-size: 1rem;}
+	.ct-product-details .ct-img-item-product {min-height: 50px !important;}
 }
 @media screen and (max-width: 800px) {
 	.header .navigation .navigation__column.left {
@@ -13,8 +15,9 @@
 @media screen and (max-width: 768px) {
 	/*Setup*/
 	body{font-size:18px;}
+	.slider-navi { max-height: 280px !important;}
 	/*Row and divide*/
-	.col-divide-md-12{flex:auto;max-width:100%}.col-divide-md-6{flex:auto;max-width:48%}.col-divide-md-4{flex:auto;max-width:32%}.col-divide-md-3{flex:auto;max-width:24%}.title--section{font-size:30px;margin:22px 0}
+	.col-codethue-md-12{flex:auto;max-width:100%}.col-codethue-md-6{flex:auto;max-width:48%}.col-codethue-md-4{flex:auto;max-width:32%}.col-codethue-md-3{flex:auto;max-width:24%}.title--section{font-size:30px;margin:22px 0}
 	/*End*/
 }
 
@@ -22,11 +25,11 @@
 	/*Setup*/
 	body { transition: background-color .5s;font-size:16px; }
 	/*Row and divide*/
-	.col-divide-sm-12 { flex: auto; max-width: 100%; }
-	.col-divide-sm-6 { flex: auto; max-width: 48%; }
-	.col-divide-sm-4 {flex: auto; max-width: 32%;}
-	.col-divide-sm-3 {flex: auto; max-width: 24%;}
+	.col-codethue-sm-12 { flex: auto; max-width: 100%; }
+	.col-codethue-sm-6 { flex: auto; max-width: 48%; }
+	.col-codethue-sm-4 {flex: auto; max-width: 32%;}
+	.col-codethue-sm-3 {flex: auto; max-width: 24%;}
 	/*Row and divide*/
 	/*Setup*/
-  .mc-h{height: 400px;}
+  	.slider-navi{max-height: 200px !important;margin-bottom: 5px;}.ct-product-details .ct-img-item-product{border: none !important;}
 }
