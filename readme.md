@@ -3,12 +3,12 @@
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>WordPress &#8250; ReadMe</title>
+	<title>Theme Sneaker Shoes</title>
 	<link rel="stylesheet" href="wp-admin/css/install.css?ver=20100228" type="text/css" />
 </head>
 <body>
 <h1 id="logo">
-	<a href="https://wordpress.org/"><img alt="WordPress" src="wp-admin/images/wordpress-logo.png" /></a>
+	<a href="https://wordpress.org/"><img alt="WordPress" src="https://s.w.org/style/images/wporg-logo.svg?3" /></a>
 </h1>
 <p style="text-align: center">Semantic Personal Publishing Platform</p>
 
@@ -92,6 +92,6 @@
 
 <h2>License</h2>
 <p>WordPress is free software, and is released under the terms of the <abbr>GPL</abbr> (GNU General Public License) version 2 or (at your option) any later version. See <a href="license.txt">license.txt</a>.</p>
-
+Theme Design by <a href="Codethue.XyZ">Codethue.XyZ</a>
 </body>
 </html>
