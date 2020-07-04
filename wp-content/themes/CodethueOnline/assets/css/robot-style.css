@@ -75,6 +75,7 @@ header .top--bar p.user-check a {color:#5b5b5b; font-size: 14px; padding: 0 10px
 .hotline-top > a { font-weight: bold;  color: #000;   font-size: 16px; }
 .navigation .navigation__column.center{width:60%}
 .navigation .center{text-align:center}
+.Mobile__menu{display: block;-webkit-animation:slide-in-fwd-center .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-fwd-center .5s cubic-bezier(.25,.46,.45,.94) both}
 .navigation .container-fluid{display:flex;justify-content:center;align-items:center}
 .navigation .navigation__column{float: left;} .navigation .navigation__column.left{width: 17%;}
 .menu-main-menu-container a { font-weight: 700; line-height: 70px; font-size: 16px;padding: 5px 10px; color:#000 }
@@ -218,21 +219,10 @@ background: rgb(38, 42, 46);text-transform: uppercase; font-weight: bold;-webkit
 
 /*Menu muti item*/
 
-/*.header .sub-menu{display:none;position:absolute}
-.header .menu .menu-item{display:relative}
-.header .menu .menu-item:hover .sub-menu{display:block}
-.header .sub-menu{display:none;position:absolute;z-index:1000;top:4.5rem;left:50%;padding:unset;width:max-content;background:#0000ff82}
-*/
+@-webkit-keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
 #cssmenu,#cssmenu ul,#cssmenu li,#cssmenu a{ border:none;margin:0;padding:0;line-height:1;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
 #cssmenu{height:max-content;display:block;padding:0;margin:0;width:auto;border-color:#080808}
 #cssmenu, #cssmenu > ul > li > ul > li a:hover {
-  /*background: #3c3c3c;
-  background: -moz-linear-gradient(top, #3c3c3c 0%, #222222 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c3c3c), color-stop(100%, #222222));
-  background: -webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%);
-  background: -o-linear-gradient(top, #3c3c3c 0%, #222222 100%);
-  background: -ms-linear-gradient(top, #3c3c3c 0%, #222222 100%);
-  background: linear-gradient(top, #3c3c3c 0%, #222222 100%);*/
 }
 #cssmenu > ul{list-style:inside none;padding:0;margin:0}
 #cssmenu > ul > li{list-style:inside none;padding:0;margin:0;float:left;display:block;position:relative}
@@ -247,10 +237,4 @@ background: rgb(38, 42, 46);text-transform: uppercase; font-weight: bold;-webkit
 #cssmenu ul li > ul{min-width:200px}
 #cssmenu ul li > ul li{display:block;list-style:inside none;padding:0;margin:0;position:relative}
 #cssmenu ul li > ul li a{outline:none;display:block;position:relative;margin:0;padding:8px 20px;text-decoration:none}
-#cssmenu ul ul a:hover{color:#fff}
-
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;background:#fff;z-index: 9999;
-  }
+#cssmenu ul ul a:hover{color:#fff}#cssmenu ul:has(.has-sub){color:red!important}.sticky{position:fixed;top:0;width:100%;background:#fff;z-index:9999}

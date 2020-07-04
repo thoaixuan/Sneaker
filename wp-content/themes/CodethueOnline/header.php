@@ -34,12 +34,13 @@
             <!-- menu-->
             <div class="navigation__column center mobile-hide">
                 <div class="main__menu d-inline-block">
-                <?php /*echo do_shortcode('[get_menu menu="Main Menu"]');*/
-                wp_nav_menu(array(
-                'menu' => 'Main Menu', 
-                'container_id' => 'cssmenu', 
-                'walker' => new CSS_Menu_Maker_Walker()
-                )); 
+                <?php
+                if(!isMobile()){ 
+                 $mobilemenu=wp_nav_menu(array(
+                    'menu' => 'Main Menu', 
+                    'container_id' => 'cssmenu', 
+                    'walker' => new CSS_Menu_Maker_Walker()
+                    ));}
                 ?>
                 </div>
             </div>
@@ -47,10 +48,18 @@
             <div class="navigation__column right">
                 <div class="d-inline-block header__right"><?php echo get_search_form();?></div>
             </div>
-            <div class="navigation__column menu--mobile d-none text--center">
+            <div class="navigation__column menu--mobile d-none text--center" onclick="showMobileMenu()">
                 <i class="fa fa-bars" aria-hidden="true"></i>
             </div>
-        </div>
+        </div>  
+        <?php if(isMobile()){ ?>
+            <div id="mobile__Menu" class="d-none">
+                <?php wp_nav_menu(array(
+                    'menu' => 'Main Menu', 
+                    'container_id' => 'cssmenu', 
+                    'walker' => new CSS_Menu_Maker_Walker()
+                    ));/*echo do_shortcode('[get_menu menu="Main Menu"]');*/ ?></div>
+        <?php } ?>
     </div>
 </div>
 </header>

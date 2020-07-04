@@ -47,6 +47,10 @@ function scrollMenuSticky() {
     header.classList.remove("sticky");
   }
 }
+function showMobileMenu(){
+  var element = document.getElementById("mobile__Menu")
+  element.classList.toggle("Mobile__menu");
+}
 </script>
 <?php wp_footer(); ?>
 	</body>

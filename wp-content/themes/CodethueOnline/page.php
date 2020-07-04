@@ -5,7 +5,7 @@
 get_header();
 ?>
 <?php wp_reset_query();?>
-<?php get_template_part('sections/main-menu-chuyen-khoa');?>
+<?php get_template_part('sections/');?>
 <section id="breckcrum" class="page_wrapper">
     <div class="container_site"> 
         <h1 class="title_child_page"><?php the_title(); ?></h1>
