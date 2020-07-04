@@ -25,7 +25,8 @@
                             </a>
                     </div>
                 
-                <?php endforeach; wp_reset_query(); ?>
+    
+                <?php endforeach;  wp_reset_query(); ?>
             </div>
         </div>
         <!--End-->

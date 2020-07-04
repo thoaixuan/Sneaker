@@ -4,23 +4,37 @@
  *
  */
 
-get_header();
-?>
-<?php if ( have_posts() ) : ?>
-<section  id="for_doi_ngu_bac_si_title" class="page_wrapper">
-    <div class="container_site">
-        <?php if ( have_posts() ) : ?>
-             <h1 class="the_post_type_titles the_post_type_titles_blog"><?php printf( __( 'Kết quả tìm kiếm: %s', 'Codethue' ), '<span>' . esc_html( get_search_query() ) . '</span>' ); ?></h1>
-             <img   src="<?php echo get_template_directory_uri(); ?>/assets/images/result-search.png" />
-             <h1 class="page_title_search"><?php _e( 'Không có kết quả phù hợp', 'Codethue' ); ?></h1>
-             <p><?php _e( 'Xin lỗi, không có kết quả tìm kiếm phù hợp với yêu cầu của bạn!', 'Codethue' ); ?></p>
-             <?php get_search_form(); ?>
-    	<?php endif; ?>
-    </div>
-</section>
-<?php		
-    endif;
-?>
+get_header(); ?>
+<div class="container">
+<div class="row">
+<div class="col-md-12">
 <?php
-get_footer();
- ?>
+
+$s= htmlspecialchars(get_search_query());
+
+if($s==null){ $s="(T T)"; }else{}
+$args = array(
+                's' =>$s,
+                'post_type'      => 'product',
+                'posts_per_page' => 1,
+            );
+    // The Query
+$the_query = new WP_Query( $args );
+if ( $the_query->have_posts() ) {
+        _e("<h2>Kết quả tìm kiếm: ".get_query_var('s')."</h2>");
+        while ( $the_query->have_posts() ) {
+           $the_query->the_post();
+                 ?>
+                    <div class="d-inline-block"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></div>
+                 <?php
+        }
+    } else{
+?>  
+        <div class="alert alert-info"><p> <?php _e( 'Xin lỗi, không có kết quả tìm kiếm phù hợp với yêu cầu của bạn! Không tìm thấy', 'Codethue' ); ?></p>
+        </div>
+        <div class="col-md-12">Không tìm thấy:  <?php echo $s; ?></div>
+<?php } ?>
+</div>
+</div>
+</div>
+<?php get_footer(); ?>

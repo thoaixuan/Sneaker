@@ -17,19 +17,26 @@ $file_includes = [
 ];
 
 foreach ($file_includes as $file) {
-    if (!$filePath = locate_template($file)) {
-        trigger_error(sprintf(__('Missing included file'), $file), E_USER_ERROR);
-    }
-
+    if (!$filePath = locate_template($file)) { trigger_error(sprintf(__('Missing included file'), $file), E_USER_ERROR); }
     require_once $filePath;
 }
 
-unset($file, $filePath);
 
+unset($file, $filePath);
+/*Custome login admin  */
+function my_login_logo() {
+    $custom_logo_id = get_theme_mod( 'custom_logo' );  $image = wp_get_attachment_image_src( $custom_logo_id , 'full' );?>
+    <style type="text/css">
+        #login h1 a, .login h1 a { background-image: url(<?php echo $image[0]; ?>);background-position: center; height:70px; width:320px; background-size: 320px auto;background-repeat: no-repeat;}
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
+/*Click login logo */
+function my_login_logo_url() { return home_url(); } add_filter( 'login_headerurl', 'my_login_logo_url' );
+function my_login_logo_url_title() { return 'Design by Thoại Xuân! Fb: fb.com/thoaixuan97';} add_filter( 'login_headertext', 'my_login_logo_url_title' );
 /*Product */
 // Our custom post type function
 function create_posttype() {
-
 	register_post_type( 'product',
 	// CPT Options
 		array(
@@ -53,10 +60,8 @@ function create_posttype() {
 //add_action( 'init', 'tao_taxonomy', 0 );
 // Hooking up our function to theme setup
 add_action( 'init', 'create_posttype' );
-/*Func process form*/
-
-/*Show product*/
-function show_Product() {
+/*Show product by Category */
+function show_product_by_cat($cat_id) {
     global $result;
     $discount=0;
     global $old_price;
@@ -64,7 +69,7 @@ function show_Product() {
     $args = array(
         'post_type'      => 'product',
         'posts_per_page' => 8,
-        /*'paged' => $paged,*/
+        'cat' => $cat_id,
     );
     $loop = new WP_Query($args);
     while ( $loop->have_posts() ) {
@@ -98,29 +103,104 @@ function show_Product() {
 
         $result .= '</div>';
         $result .= '</div>';
-    }
-    /*Paganition */
-    /*$total_pages = $loop->max_num_pages;
-    
-    if ($total_pages > 1){
+    } 
+    return $result;  
+}
+/*Show product*/
+function show_Product() {
+    global $result;
+    $discount=0;
+    global $old_price;
+    /*$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;*/
+    $args = array(
+        'post_type'      => 'product',
+        'posts_per_page' => 8,
+        /*'paged' => $paged,*/
+    );
+    $loop = new WP_Query($args);
+    while ( $loop->have_posts() ) {
+        $loop->the_post();
+        $result .= '<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">';
+        $result .= '<div class="ct-product__column">';
+        $result .= '<a href="'.get_permalink().'"><div class="pos-rel">';
+        $result .=      '<img class="ct-img-shoes pos-rel" src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" alt="" title="'.get_the_title().'">';
 
-        $current_page = max(1, get_query_var('paged'));
-        echo '<div>';
-        echo paginate_links(array(
-            'base' => get_pagenum_link(1) . '%_%',
-            'format' => '/page/%#%',
-            'current' => $current_page,
-            'total' => $total_pages,
-            'prev_text'    => __('« prev'),
-            'next_text'    => __('next »'),
-        ));
-        echo '</div>';
-    } */   
-       
+        $price_shoes=get_field("price");
+        $discount_price=get_field("discount_price");
+        $check_product_new = get_field('check-new-shoes');
+        $check_product_discount =get_field('discount');
+        if($check_product_new){$result .=  '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
+        if($check_product_discount){
+            (int)$discount=(($price_shoes-$discount_price)*100)/$price_shoes;
+            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
+            $price_shoes=get_field("discount_price");
+            $old_price ='<del>'.format_Money(get_field("price")).' VNĐ</del>';
+        }
+        else{$old_price='';}
+        
+        $result .= '</div></a>';
+
+        $result .='<div class="ct-shoes-content">';
+        $result .= '<a href="'.get_permalink().'" class="ct-shoes-name text-up">'.get_the_title().'</a>';
+        $result .= '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
+        $result .=  '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
+        
+        $result .='</div>';
+
+        $result .= '</div>';
+        $result .= '</div>';
+    }
+    /*Paganition */  
     return $result;
     
 }
 add_shortcode('show_product', 'show_Product');
+function show_widget_Product(){
+    global $result;
+    $discount=0;
+    global $old_price;
+    $post_per_page=5;
+    if(isMobile()){$post_per_page=3;}else{$post_per_pag=5;}
+    /*$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;*/
+    $args = array(
+        'post_type'      => 'product',
+        'posts_per_page' => $post_per_page,
+        /*'paged' => $paged,*/
+    );
+    $loop = new WP_Query($args);
+    while ( $loop->have_posts() ) {
+        $loop->the_post();
+        $result .= '<div class="col-md-12 padding-left-u">';/*col-lg-3 col-md-3 col-sm-3 col-12 mb-3*/
+        $result .= '<div class="ct-product__widget">';
+        $result .= '<div class="col-lg-3 col-md-3 col-sm-3 mb-3 padding-left-u"><a href="'.get_permalink().'"><div class="pos-rel">';
+        $result .=      '<img src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" class="pos-rel" alt="" title="'.get_the_title().'">';
+
+        $price_shoes=get_field("price");
+        $discount_price=get_field("discount_price");
+        $check_product_new = get_field('check-new-shoes');
+        $check_product_discount =get_field('discount');
+        if($check_product_new){$result .=  '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
+        if($check_product_discount){
+            (int)$discount=(($price_shoes-$discount_price)*100)/$price_shoes;
+            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
+            $price_shoes=get_field("discount_price");
+            $old_price ='<del>'.format_Money(get_field("price")).' VNĐ</del>';
+        }
+        else{$old_price='';}
+        
+        $result .= '</div></a></div>';
+
+        $result .='<div class="ct-shoes-content col-lg-9 col-md-9 col-sm-9 col-9 mb-9">';
+        $result .= '<a href="'.get_permalink().'" class="ct-shoes-name d--block text-up hover--primary__Color">'.get_the_title().'</a>';
+        $result .= '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
+        $result .=  '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
+  
+        $result .='</div></div></div>';
+    }
+    /*Paganition */  
+    return $result;
+}
+add_shortcode('show_widget_product', 'show_widget_Product');
 /*Func phan trang */
 
 /*format money product */
@@ -128,19 +208,6 @@ function format_Money($money){
     $result= number_format($money);
     return  $result;
 }
-/*add_action('login_head', 'login_css');*/
-
-//404
-/*
-add_action('wp', 'redirect_404_to_homepage', 1);
-function redirect_404_to_homepage()
-{
-    global $wp_query;
-    if ($wp_query->is_404) {
-        wp_redirect(get_bloginfo('url') . '/loi-404', 301);
-        exit;
-    }
-}*/
 
 // Limit Excerpt
 function get_excerpt_by_id($post_id){
@@ -160,75 +227,6 @@ function get_excerpt_by_id($post_id){
 }
 // End Limit Excerpt
 
-// Category Panigation
-function category_pagination() {
-
-	if( is_singular() ) return;
-
-	global $wp_query;
-
-	/** Stop execution if there's only 1 page */
-	if( $wp_query->max_num_pages <= 1 )
-		return;
-
-	$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-	$max   = intval( $wp_query->max_num_pages );
-
-	/**	Add current page to the array */
-	if ( $paged >= 1 )
-		$links[] = $paged;
-
-	/**	Add the pages around the current page to the array */
-	if ( $paged >= 3 ) {
-		$links[] = $paged - 1;
-		$links[] = $paged - 2;
-	}
-
-	if ( ( $paged + 2 ) <= $max ) {
-		$links[] = $paged + 2;
-		$links[] = $paged + 1;
-	}
-
-	echo '<div class="navigation navigation-category"><ul>' . "\n";
-
-	/**	Previous Post Link */
-	if ( get_previous_posts_link() )
-		printf( '<li>%s</li>' . "\n", get_previous_posts_link() );
-
-	/**	Link to first page, plus ellipses if necessary */
-	if ( ! in_array( 1, $links ) ) {
-		$class = 1 == $paged ? ' class="active"' : '';
-
-		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
-
-		if ( ! in_array( 2, $links ) )
-			echo '<li>...</li>';
-	}
-
-	/**	Link to current page, plus 2 pages in either direction if necessary */
-	sort( $links );
-	foreach ( (array) $links as $link ) {
-		$class = $paged == $link ? ' class="active"' : '';
-		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
-	}
-
-	/**	Link to last page, plus ellipses if necessary */
-	if ( ! in_array( $max, $links ) ) {
-		if ( ! in_array( $max - 1, $links ) )
-			echo '<li>...</li>' . "\n";
-
-		$class = $paged == $max ? ' class="active"' : '';
-		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
-	}
-
-	/**	Next Post Link */
-	if ( get_next_posts_link() )
-		printf( '<li>%s</li>' . "\n", get_next_posts_link() );
-
-	echo '</ul></div>' . "\n";
-
-}
-// End category pagination
 function getPostViews($postID){
     global $post;
     $postID = $post->ID;
@@ -270,82 +268,17 @@ if($column_name === 'post_views'){
       }
 }
 
-function get_wp_content(){?>
-			<?php
-                global $post;
-                while ( have_posts() ) : the_post();
-                $postID = $post->ID;
-                $categories = get_the_category($postID);
-                $author_id=$post->post_author;
 
-            ?>
-            <div class="latest_home_pages">
-                <div class="images_thumbnail">
-                    <a class="post-title-img" href="<?php the_permalink(); ?>">
-                        <?php getTheFirstImage(); ?>
-                    </a>
-                 </div>
-              <div class="right_content_latest">
-                <h3 class="title_code"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h3>
-                 <div class="author_detail">
-                    <span class="post_in"><?php the_time("d F , Y"); ?> </span>
-                    <span class="posted_by">written by
-                        <a target="_blank" href="<?php echo get_author_posts_url( $author_id, $author_nicename ); ?> ">
-                            <?php echo the_author_meta( 'user_nicename' , $author_id ); ?>
-                        </a>
-                    </span>
-                    <span class="posted_in">
-                        <?php
-                        $n=1; foreach($categories as $cat){
-                        ?>
-                        <?php if($n==1){?>
-                        <a target="_blank" class="category_name <?php echo $n?>" href="<?php echo get_category_link( $cat->cat_ID ); ?>"><?php echo $cat->name;?></a>
-                        <?php }else{echo ", ";?>
-                        <a target="_blank" class="category_name <?php echo $n?>" href="<?php echo get_category_link( $cat->cat_ID ); ?> "><?php  echo $cat->name;?></a>
-                        <?php }?>
-                        <?php $n++;}?>
-                    </span>
-                    <?php  echo getPostViews(get_the_ID());?>
-                 </div>
-                <div class="content_des"><?php
-                    $string1=str_replace("[hidden]"," ",$post->post_content);
-                    $string1=str_replace("[/hidden]"," ",$string1);
-                    $string1=strip_shortcodes($string1);
-                    $content_show=strip_tags($string1);
-                    $arr=explode(" ", $content_show);
-                    $n1=count($arr);
-                    $arr1=" ";
-                    for($i=0; $i<=$n1; $i++){ $arr1.=$arr[$i]." "; if($i==85){ break;} }
-                    echo strip_shortcodes($arr1)."[..]";?>
-                    <a class="readmore_button" href="<?php echo the_permalink();?>">Read more...</a>
-                </div>
-             </div>
-            </div>
-            <?php
-            endwhile;
-            category_pagination();
-			?>
-<?php }
 
 function getTheFirstImageContent() {
   global $post, $posts;
   $first_img = '';
   ob_start();
   ob_end_clean();
- $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+  $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
   $first_img = $matches[1][0];
   return $first_img;
 }
-function getTheFirstImage(){
-    if ( has_post_thumbnail() ) {
-        the_post_thumbnail();
-    }else{
-        echo '<img src="';
-        echo getTheFirstImageContent();
-        echo '" alt="" />';
-    }
-}
-
 
 // Create the function, so you can use it
 function isMobile() {
@@ -354,34 +287,11 @@ function isMobile() {
 // If the user is on a mobile device, redirect them
 
 // Remove update notification
-/*function filter_plugin_updates( $value ) {
+function filter_plugin_updates( $value ) {
     unset( $value->response['advanced-custom-fields-pro/acf.php'] );
     return $value;
 }
 add_filter( 'site_transient_update_plugins', 'filter_plugin_updates' );
-*/
-/*
-function filter_plugin_updatesider( $value ) {
-    unset( $value->response['revslider/revslider.php'] );
-    return $value;
-}
-add_filter( 'site_transient_update_plugins', 'filter_plugin_updatesider' );*/
-
-/*
-function filter_plugin_updateyoast( $value ) {
-    unset( $value->response['wordpress-seo-premium/wp-seo-premium.php'] );
-    return $value;
-}
-add_filter( 'site_transient_update_plugins', 'filter_plugin_updateyoast' );
-
-
-function filter_plugin_updateyoast_primeum( $value ) {
-    unset( $value->response['wordpress-seo-premium/wp-seo-main.php'] );
-    return $value;
-}
-add_filter( 'site_transient_update_plugins', 'filter_plugin_updateyoast_primeum' );
-
-*/
 
 /*function remove_update_notifications( $value ) {
 
@@ -395,37 +305,6 @@ add_filter( 'site_transient_update_plugins', 'filter_plugin_updateyoast_primeum'
 add_filter( 'site_transient_update_plugins', 'remove_update_notifications' );
 
 */
-
-function order_admin_custom_post_type($query) {
-  if($query->is_admin) {
-
-        if ($query->get('post_type') == 'chuoi-co-so')
-        {
-          $query->set('orderby', 'title');
-          $query->set('order', 'ASC');
-        }
-  }
-  return $query;
-}
-add_filter('pre_get_posts', 'order_admin_custom_post_type');
-
-
-function order_font_page_custom_post_type($query)
-{
-    if ($query->get('post_type') == 'chuoi-co-so')
-        {
-          $query->set('orderby', 'ID');
-          $query->set('order', 'ASC');
-        }
-    if ( is_post_type_archive( 'chuoi-co-so' ) ) {
-        // Display 50 posts for a custom post type called 'movie'
-        $query->set( 'posts_per_page', 50 );
-        return;
-    }
-}
-add_action('pre_get_posts', 'order_font_page_custom_post_type');
-
-
 
 // Set classic editor
 add_filter( 'use_block_editor_for_post', '__return_false' );
@@ -619,4 +498,134 @@ function rd_duplicate_post_link( $actions, $post ) {
 }
  
 add_filter( 'post_row_actions', 'rd_duplicate_post_link', 10, 2 );
-/*-------------------------------------------End---------------------------------------------------------------- */
+/*CLEAND IMAGE FROM OLD POST */
+/*--------------------------------- */
+// Category Panigation
+// function category_pagination() {
+
+// 	if( is_singular() ) return;
+
+// 	global $wp_query;
+
+// 	/** Stop execution if there's only 1 page */
+// 	if( $wp_query->max_num_pages <= 1 )
+// 		return;
+
+// 	$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+// 	$max   = intval( $wp_query->max_num_pages );
+
+// 	/**	Add current page to the array */
+// 	if ( $paged >= 1 )
+// 		$links[] = $paged;
+
+// 	/**	Add the pages around the current page to the array */
+// 	if ( $paged >= 3 ) {
+// 		$links[] = $paged - 1;
+// 		$links[] = $paged - 2;
+// 	}
+
+// 	if ( ( $paged + 2 ) <= $max ) {
+// 		$links[] = $paged + 2;
+// 		$links[] = $paged + 1;
+// 	}
+
+// 	echo '<div class="navigation navigation-category"><ul>' . "\n";
+
+// 	/**	Previous Post Link */
+// 	if ( get_previous_posts_link() )
+// 		printf( '<li>%s</li>' . "\n", get_previous_posts_link() );
+
+// 	/**	Link to first page, plus ellipses if necessary */
+// 	if ( ! in_array( 1, $links ) ) {
+// 		$class = 1 == $paged ? ' class="active"' : '';
+
+// 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
+
+// 		if ( ! in_array( 2, $links ) )
+// 			echo '<li>...</li>';
+// 	}
+
+// 	/**	Link to current page, plus 2 pages in either direction if necessary */
+// 	sort( $links );
+// 	foreach ( (array) $links as $link ) {
+// 		$class = $paged == $link ? ' class="active"' : '';
+// 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
+// 	}
+
+// 	/**	Link to last page, plus ellipses if necessary */
+// 	if ( ! in_array( $max, $links ) ) {
+// 		if ( ! in_array( $max - 1, $links ) )
+// 			echo '<li>...</li>' . "\n";
+
+// 		$class = $paged == $max ? ' class="active"' : '';
+// 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
+// 	}
+
+// 	/**	Next Post Link */
+// 	if ( get_next_posts_link() )
+// 		printf( '<li>%s</li>' . "\n", get_next_posts_link() );
+
+// 	echo '</ul></div>' . "\n";
+
+// }
+// End category pagination
+/*----------------------------------------------------End---------------------------------------------------------------- */
+class CSS_Menu_Maker_Walker extends Walker {
+
+    var $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
+  
+    function start_lvl( &$output, $depth = 0, $args = array() ) {
+      $indent = str_repeat("\t", $depth);
+      $output .= "\n$indent<ul>\n";
+    }
+  
+    function end_lvl( &$output, $depth = 0, $args = array() ) {
+      $indent = str_repeat("\t", $depth);
+      $output .= "$indent</ul>\n";
+    }
+  
+    function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+  
+      global $wp_query;
+      $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+      $class_names = $value = '';
+      $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+  
+      /* Add active class */
+      if(in_array('current-menu-item', $classes)) {
+        $classes[] = 'active';
+        unset($classes['current-menu-item']);
+      }
+  
+      /* Check for children */
+      $children = get_posts(array('post_type' => 'nav_menu_item', 'nopaging' => true, 'numberposts' => 1, 'meta_key' => '_menu_item_menu_item_parent', 'meta_value' => $item->ID));
+      if (!empty($children)) {
+        $classes[] = 'has-sub';
+      }
+  
+      $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+      $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+  
+      $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
+      $id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+  
+      $output .= $indent . '<li' . $id . $value . $class_names .'>';
+  
+      $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
+      $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
+      $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
+      $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
+  
+      $item_output = $args->before;
+      $item_output .= '<a'. $attributes .'><span>';
+      $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+      $item_output .= '</span></a>';
+      $item_output .= $args->after;
+  
+      $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+    }
+  
+    function end_el( &$output, $item, $depth = 0, $args = array() ) {
+      $output .= "</li>\n";
+    }
+  }

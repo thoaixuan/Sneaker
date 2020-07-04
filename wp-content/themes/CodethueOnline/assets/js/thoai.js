@@ -1,4 +1,26 @@
 jQuery(document).ready(function(){
+  
+ jQuery("#back-to-Top").on('click', function(e) {
+  e.preventDefault();
+  jQuery('html, body').animate({scrollTop:0}, '800');
+});
+
+  jQuery(window).load(function() {
+    jQuery('.flexslider').flexslider({
+      controlNav: false,
+      directionNav: true,
+      /*prevText: "Quay lại",
+      nextText: "Tiếp",*/
+  });
+  jQuery('.flexslider2').flexslider({
+    animation: "slide",
+    animationLoop: false,
+    itemWidth: 210,
+    itemMargin: 5,
+    minItems: 2,
+    maxItems: 4
+});
+  });
 /* Code here */  
 jQuery('.ct-slider-product').slick({
   slidesToShow: 1,
@@ -67,5 +89,6 @@ jQuery('.details-product .sub').click(function () {
     if (jQuery(this).next().val() > 1) jQuery(this).next().val(+jQuery(this).next().val() - 1);
   }
 });
+/*Scroll fixed */
 /*---------------------end----------------------- */
 });

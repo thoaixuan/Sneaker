@@ -1,70 +1,56 @@
 ﻿<?php
 /**
- *
+ *Show post by Cat
  */
 get_header();
-get_template_part('sections/main-menu-chuyen-khoa');
 ?>
-<section  id="for_doi_ngu_bac_si_title" class="page_wrapper">
-    <div class="container_site">
-        <?php if ( have_posts() ) : ?>
-    		 <h3 class="the_post_type_titles the_post_type_titles_blog"><?php the_archive_title(  ); ?></h3>
-    	<?php endif; ?>
-    </div>
-</section>
-<section id="DoiNguBacSi_archive" class="page_wrapper DoiNguBacSi_archive_content_blog">
-    <div class="container_site">
-        <ul class="doi_ngu_bac_si_list_parent_items doi_ngu_bac_si_list_parent_items_blog_page">
-            <?php if (have_posts()) : $count_dnbs=1; while (have_posts()) : the_post(); ?>
-                <?php
-                    if($count_dnbs%4==0){$class_no_margin="dnbs_no_margin_right";}else{$class_no_margin=" ";}
-                    if($count_dnbs%4==1){$class_no_marginleft="dnbs_no_margin_left";}else{$class_no_marginleft=" ";}
-                    ?>
-                    <li class="doi_ngu_bac_si_list_parent_item doi_ngu_bac_si_list_parent_item_<?php echo $count_dnbs;?> <?php echo $class_no_margin;?>  <?php echo $class_no_marginleft;?>">
+<?php 
+$category = get_queried_object();
+$cat_id =   $category->term_id;
 
-                        <div class="top_img_dnbs_item">
-                            <a href="<?php the_permalink();?>" title="<?php the_title();?>" class="d--block">
-                                <?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'thumbnail' ); ?>
-                                <?php if($url){?>
-                                <img src="<?php echo $url?>" alt="<?php the_title();?>" />
-                                <?php }else{?>
-                                <img   src="<?php echo get_template_directory_uri(); ?>/images/logo_no_image.jpg" />
-                                <?php }?>
-                                <div class="plus_con_for_hover"><div class="plus_con_for_hover_child"><img width="40" src="<?php echo get_template_directory_uri(); ?>/images/icon_plus.svg" /></div></div>
+$cat_name=get_cat_name($cat_id);
+?>
+<section class="cat_page_wrapper ct__latest_news">
+    <div class="container">
+        <div class="ct-title pos-rel" data-mask="<?=$cat_name?>">
+            <h1 class="d-none"><?=$cat_name?></h1>
+            <h3 class="ct-tile-product"> - <?=$cat_name?></h3>
+        </div>
+        <div class="row pd-top-bot-20">
+        <?php
+                $recent_posts = wp_get_recent_posts(array(
+                    'numberposts' => 6, 
+                    'post_status' => 'publish',
+                    'post_type' => array('post', 'product'),
+                    'cat' => $cat_id,
+                    
+                ));
+                foreach($recent_posts as $post) : ?>
+                <?php  if($post['post_type'] == 'product') { 
+                    /*show produt*/
+                    echo show_product_by_cat($cat_id); 
+                ?>   
+                <?php break;} else { /*show news */ ?>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-4">
+                            <a href="<?php echo get_permalink($post['ID']) ?>">
+                                <img class="ct-img-post-latest" src="<?php echo get_the_post_thumbnail_url($post['ID'], 'post-thumbnail'); ?>">
+                                <div class=""><p class="ct-title-post-latest"><?php echo $post['post_title'] ?></p>
+                                    <p class="ct-date-post-latest"><i class="fa fa-calendar" aria-hidden="true"></i>  <?=get_the_date()?></p>
+                                    <span class="ct-excerpt-post-latest"><?=get_excerpt_by_id($post['ID'])?></span>
+                                    <span class="text-up">đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+                                </div>
                             </a>
-                        </div>
 
-                        <div class="name_title_bscn">
-                             <div class="padding_name_title_bscn">
-                                <a href="<?php the_permalink(); ?>" title="<?php the_title();?>">
-                                    <h3 class="name_title_h3_bs"><?php the_title();?></h3>
-                                    <h4 class="chuc_vu_bscn"><?php echo get_field('chuc_vu_bs');?></h4>
-                                </a>
-                             </div>
-                        </div>
-                        <div class="short_description_dnbs_list">
-                            <div class="padding_name_title_bscn">
-                                <?php //echo get_excerpt(158);?>
-								<?php $text = str_replace('[sub-title]', '', get_excerpt(158)); echo $text;?>
-                            </div>
-                        </div>
-                    </li>
-                <?php $count_dnbs++; endwhile; ?>
-           <?php endif; ?>
-        </ul>
-        <script src="<?php echo get_theme_file_uri('./js/lib/magic-grid.min.js') ?>"></script>
-        <script>
-            let magicGrid = new MagicGrid({
-              container: document.querySelector('.doi_ngu_bac_si_list_parent_items.doi_ngu_bac_si_list_parent_items_blog_page'),
-              animate: true,
-              gutter: 30,
-              static: true,
-              useMin: true
-            });
-            magicGrid.listen();
-        </script>
+                    </div>
+                    
+        <?php  } endforeach; wp_reset_query(); ?>
+        </div>
         <div class="navigation_archive">
-            <?php  category_pagination();?>
+            Tổng số bài viết 
+            <?php
+            $postsInCat = get_term_by('id',$cat_id ,'category');//Thay ID_CAT bằng ID mà bạn muốn đếm số bài viết
+            echo $postsInCat = $postsInCat->count; // Số bài viết
+            ?>
         </div>
     </div>
 </section>
