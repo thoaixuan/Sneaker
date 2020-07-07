@@ -34,24 +34,13 @@
   </div>
 </div>
 </footer>
-
+<!-- CART -->
+<button type="button" class="btn modal--cart" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+<!-- Modal -->
+<?php get_template_part('sections/cart'); ?>
+<!--      -->
 <button id="back-to-Top" title="Về đầu trang"></button>
-<script defer> var mybutton=document.getElementById("back-to-Top");function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?mybutton.style.display="block":mybutton.style.display="none"}window.onscroll=function(){scrollFunction();scrollMenuSticky();};
-var header = document.getElementById("fixed-menu");
-var sticky = header.offsetTop;
-
-function scrollMenuSticky() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
-  } else {
-    header.classList.remove("sticky");
-  }
-}
-function showMobileMenu(){
-  var element = document.getElementById("mobile__Menu")
-  element.classList.toggle("Mobile__menu");
-}
-</script>
+<script defer> var mybutton=document.getElementById("back-to-Top");function scrollFunction(){document.body.scrollTop>20||document.documentElement.scrollTop>20?mybutton.style.display="block":mybutton.style.display="none"}window.onscroll=function(){scrollFunction();scrollMenuSticky();};var header=document.getElementById("fixed-menu"),sticky=header.offsetTop;function scrollMenuSticky(){window.pageYOffset>sticky?header.classList.add("sticky"):header.classList.remove("sticky")}function showMobileMenu(){document.getElementById("mobile__Menu").classList.toggle("Mobile__menu");}</script>
 <?php wp_footer(); ?>
 	</body>
 </html>

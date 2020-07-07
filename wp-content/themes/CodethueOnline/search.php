@@ -9,9 +9,7 @@ get_header(); ?>
 <div class="row">
 <div class="col-md-12">
 <?php
-
 $s= htmlspecialchars(get_search_query());
-
 if($s==null){ $s="(T T)"; }else{}
 $args = array(
                 's' =>$s,
@@ -25,7 +23,7 @@ if ( $the_query->have_posts() ) {
         while ( $the_query->have_posts() ) {
            $the_query->the_post();
                  ?>
-                    <div class="d-inline-block"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></div>
+                    <div class="d-inline-block cat_page_wrapper"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></div>
                  <?php
         }
     } else{
@@ -34,7 +32,18 @@ if ( $the_query->have_posts() ) {
         </div>
         <div class="col-md-12">Không tìm thấy:  <?php echo $s; ?></div>
 <?php } ?>
+    <div class="text--center cat_page_wrapper">
+    <form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">                                 		
+        <div class="search_form_page_wrap">
+            <input type="search" id="search_field_2" class="search-field search_field_form_page" placeholder="Điền từ khóa" value="<?php echo get_search_query(); ?>" name="s" />
+            <button type="submit" class="search_submit_page pos-rel">
+                <img  class="img_search pos-ab" src="<?php echo get_template_directory_uri(); ?>/assets/images/search_icon.svg" />
+            </button>
+        </div>
+    </form>
+    </div>
 </div>
+
 </div>
 </div>
 <?php get_footer(); ?>

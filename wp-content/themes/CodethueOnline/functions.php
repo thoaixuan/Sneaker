@@ -86,7 +86,7 @@ function show_product_by_cat($cat_id) {
         if($check_product_new){$result .=  '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
         if($check_product_discount){
             (int)$discount=(($price_shoes-$discount_price)*100)/$price_shoes;
-            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.$discount.'%</span></div>'; 
+            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
             $price_shoes=get_field("discount_price");
             $old_price ='<del>'.format_Money(get_field("price")).' VNĐ</del>';
         }
@@ -172,7 +172,7 @@ function show_widget_Product(){
         $loop->the_post();
         $result .= '<div class="col-md-12 padding-left-u">';/*col-lg-3 col-md-3 col-sm-3 col-12 mb-3*/
         $result .= '<div class="ct-product__widget">';
-        $result .= '<div class="col-lg-3 col-md-3 col-sm-3 mb-3 padding-left-u"><a href="'.get_permalink().'"><div class="pos-rel">';
+        $result .= '<div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3 padding-left-u"><a href="'.get_permalink().'"><div class="pos-rel">';
         $result .=      '<img src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" class="pos-rel" alt="" title="'.get_the_title().'">';
 
         $price_shoes=get_field("price");
@@ -190,7 +190,7 @@ function show_widget_Product(){
         
         $result .= '</div></a></div>';
 
-        $result .='<div class="ct-shoes-content col-lg-9 col-md-9 col-sm-9 col-9 mb-9">';
+        $result .='<div class="col-lg-9 col-md-9 col-sm-9 col-9 mb-9 ct-shoes-content">';
         $result .= '<a href="'.get_permalink().'" class="ct-shoes-name d--block text-up hover--primary__Color">'.get_the_title().'</a>';
         $result .= '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
         $result .=  '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
@@ -268,8 +268,6 @@ if($column_name === 'post_views'){
       }
 }
 
-
-
 function getTheFirstImageContent() {
   global $post, $posts;
   $first_img = '';
@@ -303,7 +301,6 @@ add_filter( 'site_transient_update_plugins', 'filter_plugin_updates' );
     return $value;
 }
 add_filter( 'site_transient_update_plugins', 'remove_update_notifications' );
-
 */
 
 // Set classic editor

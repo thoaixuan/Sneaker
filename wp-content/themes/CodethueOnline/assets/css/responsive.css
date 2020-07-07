@@ -1,10 +1,5 @@
 @media screen and (max-width: 1024px) {
 	.navigation .navigation__column{display: block;margin: 0 auto;}
-	.navigation__column.right:hover .search_form_page_wrap input{display: block;
-		position: absolute;
-		bottom: -40px;
-		right: 10px;
-		z-index: 1000;}
 	.banner__main { height: unset !important; }
 	.mobile-hide{display: none !important;} #quantity-cart { text-align: center; }
 	#quantity-cart button:last-child{margin-top: 10px;}
@@ -44,10 +39,11 @@
 	.ct-product .ct-title::before,.ct__latest_news .ct-title::before{font-size: 50px !important;}
 	.navigation__column.menu--mobile{display: block;width: 20%;}
 	.slider-navi{max-height: 200px !important;margin-bottom: 5px;}.ct-product-details .ct-img-item-product{border: none !important;}
-	input[type="search"]{display: none;}
+	.header input[type="search"]{display: none;}
 	.header .navigation .navigation__column.left{width: 60%;object-fit: cover;}
 	.header .navigation .navigation__column.right{width:20%;text-align: right;}
 	.ct-tile-product, .ct-product .ct-title, .cat_page_wrapper .ct-title{padding: 10px 0;}
+	.ct__subscribe .ct-subscribe__form > button{padding: 0 20px !important;right: 30px !important;}
 }
 @media screen and (max-width: 375px) {
 	.isMobile .ct-slider-Info .contentInSlider { margin-bottom: 5%; }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for displaying search forms in Phòng Khám Đa Khoa Phương Nam
+ * Template for displaying search forms
  *
  */
 ?>

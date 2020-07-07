@@ -45,7 +45,7 @@
                         $field = get_field_object('size-products');
                         $choices = $field['choices'];
                         foreach ($choices as $value => $label) {
-                           echo '<li>'.$label.'</li>';
+                           echo '<li class="size-product" data-size="'.$label.'">'.$label.'</li>';
                         }
                         ?>
                         </ul>
@@ -55,13 +55,19 @@
                         <button type="button" id="sub" class="sub">-</button>
                         <input type="number" readonly id="1" value="1" min="1" max="10" />
                         <button type="button" id="add" class="add">+</button>
-                        <button type="submit">THÊM VÀO GIỎ HÀNG</button>
+                        <button onclick="add_to_cart()" id="addtoCart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="block_phone"><span class="text">Hoặc đặt mua: </span><a title="Tư vấn &amp; đặt hàng: 0909300746" href="tel:0909300746">0909300746</a> ( Tư vấn Miễn phí )
 				    </div>
                     <div class="notify"><strong>Free Ship</strong> tại khu vực Hồ Chí Minh</div>
                 </div>
             </div>
+            <!-- info product -->
+            <input id="name_product" type="hidden" value="<?=get_the_title()?>">
+            <input id="size_product" type="hidden" value="">
+            <input id="sl_product" type="hidden" value="">
+            <input id="prize" type="hidden" value="<?php if(get_field("discount")){ echo format_Money(get_field("discount_price")).' VNĐ';}else{echo format_Money(get_field("price")).' VNĐ';} ?>">
+            <!-- -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12"> 
                 <div class="details-product">
                     <?=get_field('details-product')?>
