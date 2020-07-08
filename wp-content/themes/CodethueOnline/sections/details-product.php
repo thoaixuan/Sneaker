@@ -55,7 +55,8 @@
                         <button type="button" id="sub" class="sub">-</button>
                         <input type="number" readonly id="1" value="1" min="1" max="10" />
                         <button type="button" id="add" class="add">+</button>
-                        <button onclick="add_to_cart()" id="addtoCart">THÊM VÀO GIỎ HÀNG</button>
+                        <button data-name="<?=get_the_title()?>" data-price="<?php if(get_field("discount")){ echo get_field("discount_price");}
+                        else{ echo get_field("price"); } ?>" data-size="" id="addtoCart">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                     <div class="block_phone"><span class="text">Hoặc đặt mua: </span><a title="Tư vấn &amp; đặt hàng: 0909300746" href="tel:0909300746">0909300746</a> ( Tư vấn Miễn phí )
 				    </div>
@@ -63,10 +64,9 @@
                 </div>
             </div>
             <!-- info product -->
-            <input id="name_product" type="hidden" value="<?=get_the_title()?>">
+            <input id="img_product" type="hidden" value="<?php echo get_the_post_thumbnail_url();?>">
+            <input id="link_product" type="hidden" value="<?php echo get_permalink(); ?>">
             <input id="size_product" type="hidden" value="">
-            <input id="sl_product" type="hidden" value="">
-            <input id="prize" type="hidden" value="<?php if(get_field("discount")){ echo format_Money(get_field("discount_price")).' VNĐ';}else{echo format_Money(get_field("price")).' VNĐ';} ?>">
             <!-- -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12"> 
                 <div class="details-product">

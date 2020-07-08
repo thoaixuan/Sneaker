@@ -78,7 +78,9 @@ jQuery('.size-product').on('click', function(e){
   e.preventDefault();    
   listSizeCart.push( jQuery(this).data('size') );
   /*console.log(listSizeCart.length);*/
-  deduplicate(listSizeCart);jQuery("#size_product").val(deduplicate(listSizeCart));
+  deduplicate(listSizeCart);
+  jQuery("#size_product").val(deduplicate(listSizeCart));
+  jQuery("#addtoCart").attr('data-size',deduplicate(listSizeCart));
 });
 function deduplicate(arr) {
   let isExist = (arr, x) => {
@@ -99,6 +101,7 @@ jQuery(".ct-size-product li").toggle(
   function(){jQuery(this).css({"background": "#ffd600"});
   /*console.log(deduplicate(listSizeCart)); when add an value in array*/
   jQuery("#size_product").val(deduplicate(listSizeCart));
+  jQuery("#addtoCart").attr('data-size',deduplicate(listSizeCart));
 },
   function(){
     jQuery(this).css({"background": "#fff"});
@@ -106,6 +109,7 @@ jQuery(".ct-size-product li").toggle(
     listSizeCart = jQuery.grep(listSizeCart, function(value) { return value != removeItem; });
     /*console.log(deduplicate(listSizeCart)); when remove an value in array*/
     jQuery("#size_product").val(deduplicate(listSizeCart));
+    jQuery("#addtoCart").attr('data-size',deduplicate(listSizeCart));
 }); 
 
 

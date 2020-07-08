@@ -7,9 +7,11 @@ a:hover{text-decoration: none;transition: 0.75s;}
 .col-codethue-1{flex:0 0 7%;max-width:7%;width:100%}.col-codethue-2{flex:0 0 14%;max-width:14%;width:100%}.col-codethue-3{flex:0 0 22%;max-width:22%;width:100%}.col-codethue-4{flex:0 0 31%;max-width:31%;width:100%}.col-codethue-5{flex:0 0 40%;max-width:40%;width:100%}.col-codethue-6{flex:0 0 50%;max-width:48%;width:100%}.col-codethue-7{flex:0 0 57%;max-width:57%;width:100%}.col-codethue-8{flex:0 0 65%;max-width:65%;width:100%}.col-codethue-9{flex:0 0 73%;max-width:73%;width:100%}.col-codethue-10{flex:0 0 81%;max-width:81%;width:100%}.col-codethue-11{flex:0 0 90%;max-width:90%;width:100%}.col-codethue-12{flex:0 0 100%;max-width:100%;width:100%}
 /*CSS style here*/
 .ct-content-post h1{color:#5b5b5b}
+.padding__left--15{padding-left: 15px;}
 .ct-post-details .ct-date-post-latest{color:#8b8b8b;font-size:1.3rem}
 /*CART*/
-.modal--cart{position: fixed;bottom: 50vh;right:30px;background-color: var(--main-color);}
+.modal--cart{position: fixed;bottom: 50vh;right:30px;background-color: var(--main-color);z-index: 1000;}
+#cart .show-cart .input-group{display: flex !important;}
 /*Back to top*/
 #back-to-Top:hover::before{color:#fff}
 #back-to-Top::before{content: 'Top';color: #000;font-weight: bold;}
@@ -26,7 +28,7 @@ a:hover{text-decoration: none;transition: 0.75s;}
     background-position: center; /* Center the image */
     background-size: cover;
     cursor: pointer;
-    padding: 20px;
+    padding: 15px;
 }
 /*WIDGET CSS*/
 .ct--widget img{width: 100%;}

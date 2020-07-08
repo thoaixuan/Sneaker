@@ -35,7 +35,7 @@
 </div>
 </footer>
 <!-- CART -->
-<button type="button" class="btn modal--cart" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+<button type="button" class="btn modal--cart" data-toggle="modal" data-target="#cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i> (<span class="total-count"></span>)</button>
 <!-- Modal -->
 <?php get_template_part('sections/cart'); ?>
 <!--      -->
