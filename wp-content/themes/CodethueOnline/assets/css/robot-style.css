@@ -11,7 +11,7 @@ a:hover{text-decoration: none;transition: 0.75s;}
 .ct-post-details .ct-date-post-latest{color:#8b8b8b;font-size:1.3rem}
 /*CART*/
 .modal--cart{position: fixed;bottom: 50vh;right:30px;background-color: var(--main-color);z-index: 1000;}
-#cart .show-cart .input-group{display: flex !important;}
+.show-cart .input-group{display: flex !important;}
 /*Back to top*/
 #back-to-Top:hover::before{color:#fff}
 #back-to-Top::before{content: 'Top';color: #000;font-weight: bold;}
@@ -39,7 +39,8 @@ a:hover{text-decoration: none;transition: 0.75s;}
 .ct--widget .ct-widget-post .ct-product__widget:hover .ct-new-shoes{display: block;}
 .ct-widget-post .ct-new-shoes{ display: none; top: 0; width: 100%; height: 100%; background: #ffb72787;-webkit-animation:tracking-in-contract .8s cubic-bezier(.215,.61,.355,1.000) both;animation:tracking-in-contract .8s cubic-bezier(.215,.61,.355,1.000) both;}
 @-webkit-keyframes tracking-in-contract{0%{letter-spacing:1em;opacity:0}40%{opacity:.6}100%{letter-spacing:normal;opacity:1}}@keyframes tracking-in-contract{0%{letter-spacing:1em;opacity:0}40%{opacity:.6}100%{letter-spacing:normal;opacity:1}}
-.ct-widget-post .ct-new-shoes >span,.ct-product__widget .ct-discount-shoes > span{-webkit-transform: translate(-50%, -50%); color:#fff;font-weight: 600;
+.ct-widget-post .ct-new-shoes >span,.ct-product__widget .ct-discount-shoes > span{ color:#fff;font-weight: 600;
+    -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);

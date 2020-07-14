@@ -111,8 +111,7 @@ jQuery(".ct-size-product li").toggle(
     jQuery("#size_product").val(deduplicate(listSizeCart));
     jQuery("#addtoCart").attr('data-size',deduplicate(listSizeCart));
 }); 
-
-
+/*-------------------------------------------------------------------*/
 /*So luong */
 jQuery('.details-product .add').click(function () {
   if (jQuery(this).prev().val() < 10) {

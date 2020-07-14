@@ -1,4 +1,7 @@
 @media screen and (max-width: 1024px) {
+	
+	.item-count.form-control { width: 60px; }
+	#cart { width: 100% !important; }
 	.navigation .navigation__column{display: block;margin: 0 auto;}
 	.banner__main { height: unset !important; }
 	.mobile-hide{display: none !important;} #quantity-cart { text-align: center; }
@@ -26,6 +29,8 @@
 }
 
 @media screen and (max-width: 438px) {
+	#cart .show-cart .input-group{display: inline !important;}
+	#cart .table > tbody > tr > td:last-child{ display: none; }
 	/*Setup*/
 	.center-mobile{text-align: center;}
 	body { transition: background-color .5s; font-size:16px; }
@@ -48,3 +53,10 @@
 @media screen and (max-width: 375px) {
 	.isMobile .ct-slider-Info .contentInSlider { margin-bottom: 5%; }
 }
+/*Modal responsive*/
+@media only screen and (min-width: 576px) {
+	.modal-dialog {
+		max-width: 550px;
+		margin: 12vh auto;
+	}
+  }
