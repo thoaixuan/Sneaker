@@ -52,9 +52,9 @@
                     </div>
                     <hr>
                     <div id="quantity-cart">
-                        <button type="button" id="sub" class="sub">-</button>
+                        <!--<button type="button" id="sub" class="sub">-</button>
                         <input type="number" readonly id="1" value="1" min="1" max="10" />
-                        <button type="button" id="add" class="add">+</button>
+                        <button type="button" id="add" class="add">+</button>-->
                         <button data-name="<?=get_the_title()?>" data-price="<?php if(get_field("discount")){ echo get_field("discount_price");}
                         else{ echo get_field("price"); } ?>" data-size="" id="addtoCart">THÊM VÀO GIỎ HÀNG</button>
                     </div>

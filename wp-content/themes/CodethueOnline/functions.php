@@ -285,12 +285,12 @@ function isMobile() {
 // If the user is on a mobile device, redirect them
 
 // Remove update notification
-function filter_plugin_updates( $value ) {
+/*function filter_plugin_updates( $value ) {
     unset( $value->response['advanced-custom-fields-pro/acf.php'] );
     return $value;
 }
 add_filter( 'site_transient_update_plugins', 'filter_plugin_updates' );
-
+*/
 /*function remove_update_notifications( $value ) {
 
     if ( isset( $value ) && is_object( $value ) ) {

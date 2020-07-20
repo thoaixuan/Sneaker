@@ -113,6 +113,7 @@ jQuery(".ct-size-product li").toggle(
 }); 
 /*-------------------------------------------------------------------*/
 /*So luong */
+/*
 jQuery('.details-product .add').click(function () {
   if (jQuery(this).prev().val() < 10) {
     jQuery(this).prev().val(+jQuery(this).prev().val() + 1);
@@ -123,6 +124,6 @@ jQuery('.details-product .sub').click(function () {
     if (jQuery(this).next().val() > 1) jQuery(this).next().val(+jQuery(this).next().val() - 1);
   }
 });
-
+*/
 /*---------------------end----------------------- --------------------------------------*/
 });
