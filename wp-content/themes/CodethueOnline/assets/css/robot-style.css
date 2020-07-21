@@ -106,6 +106,7 @@ header .top--bar p.user-check a {color:#5b5b5b; font-size: 14px; padding: 0 10px
 .features .icon__box__header h3{font-size: 24px; line-height: 1; font-weight: 700; color: rgb(255, 195, 0); text-transform: uppercase; margin-top: 5px; }
 .features .icon__box__header p{font-size: 14px; font-weight: 700; line-height: 1.7em;}
 /*Products*/
+.show-cart + div >span{font-weight: bold;}
 #quantity-cart >input, #quantity-cart >button{padding: 0 5px 1px;  height: 60px;  border: 1px #ddd solid;text-align: center;border-radius: 5px; }
 #quantity-cart >button{background: none;font-weight: bolder;padding: 0 15px;}
 .details-product .block_phone{display:block;font-size:16px;margin-top:15px}
@@ -221,7 +222,7 @@ background: rgb(38, 42, 46);text-transform: uppercase; font-weight: bold;-webkit
 /*Category post*/
 .cat_page_wrapper img{width: 100%;}
 .cat_page_wrapper{margin-bottom: 50px;}
-
+.mg-bot-20{margin-bottom: 20px;}
 /*Menu muti item*/
 @-webkit-keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
 #cssmenu,#cssmenu ul,#cssmenu li,#cssmenu a{ border:none;margin:0;padding:0;line-height:1;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}

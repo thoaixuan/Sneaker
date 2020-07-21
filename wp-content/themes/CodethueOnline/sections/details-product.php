@@ -56,7 +56,9 @@
                         <input type="number" readonly id="1" value="1" min="1" max="10" />
                         <button type="button" id="add" class="add">+</button>-->
                         <button data-name="<?=get_the_title()?>" data-price="<?php if(get_field("discount")){ echo get_field("discount_price");}
-                        else{ echo get_field("price"); } ?>" data-size="" id="addtoCart">THÊM VÀO GIỎ HÀNG</button>
+                        else{ echo get_field("price"); } ?>" id="addtoCart">THÊM VÀO GIỎ HÀNG</button>
+                        <button data-url="<?php echo 'Sản phẩm : '.get_the_title().' >>Giá: '; if(get_field("discount")){ echo get_field("discount_price");}
+                        else{ echo get_field("price"); } ?>" id="ordernow">ĐẶT HÀNG NGAY</button>
                     </div>
                     <div class="block_phone"><span class="text">Hoặc đặt mua: </span><a title="Tư vấn &amp; đặt hàng: 0909300746" href="tel:0909300746">0909300746</a> ( Tư vấn Miễn phí )
 				    </div>

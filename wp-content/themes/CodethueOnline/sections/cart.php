@@ -17,7 +17,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tiếp tục mua hàng</button>
         <button class="clear-cart btn btn-danger">Xóa giỏ hàng</button>
-        <button type="button" class="btn btn-primary" title="UPDATE LATER">Đặt hàng</button>
+        <button type="button" class="btn btn-primary" title="Đặt hàng" onclick="location.href='<?php echo get_field('checkout_url','options'); ?>';">Đặt hàng</button>
       </div>
     </div>
   </div>
