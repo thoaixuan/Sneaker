@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-vi">
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,7 +16,7 @@
 <p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I&#8217;m proud to be a part of. Thousands of hours have gone into WordPress, and we&#8217;re dedicated to making it better every day. Thank you for making it part of your world.</p>
 <p style="text-align: right">&#8212; Matt Mullenweg</p>
 
-<h2>Installation: Famous 5-minute install</h2>
+<h2>Installation: Famous 3-minute install</h2>
 <ol>
 	<li>Unzip the package in an empty directory and upload everything.</li>
 	<li>Open <span class="file"><a href="wp-admin/install.php">wp-admin/install.php</a></span> in your browser. It will take you through the process to set up a <code>wp-config.php</code> file with your database connection details.
@@ -32,10 +32,10 @@
 </ol>
 
 <h2>Updating</h2>
-<h3>Using the Automatic Updater</h3>
+<h3>Update New feature >> Contact code</h3>
 <ol>
-	<li>Open <span class="file"><a href="wp-admin/update-core.php">wp-admin/update-core.php</a></span> in your browser and follow the instructions.</li>
-	<li>You wanted more, perhaps? That&#8217;s it!</li>
+	<li>Website : Codethue.xyz</li>
+	<li>Fanpage : fb.com/ithomnay</li>
 </ol>
 
 <h3>Updating Manually</h3>
