@@ -24,41 +24,46 @@ get_header(); ?>
             </div>
             <hr/>
             <div><h1>Thông tin giao hàng</h1>
-            <form>
+            <form method="POST" action="" id="form-checkout" name="form-checkout">
                 <div class="form-group row">
                     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Họ tên *</label>
                     <div class="col-sm-10">
-                    <input type="email" class="form-control form-control-sm" placeholder="Họ và tên">
+                    <input type="text" class="form-control form-control-sm" id="hoTen" name="hoTen" placeholder="Họ và tên">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="colFormLabel" class="col-sm-2 col-form-label">Email </label>
                     <div class="col-sm-10">
-                    <input type="email" class="form-control" id="colFormLabel" placeholder="Email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Số điện thoại *</label>
                     <div class="col-sm-10">
-                    <input type="email" class="form-control form-control-lg" placeholder="Số điện thoại">
+                    <input type="text" class="form-control form-control-lg" id="sdtC" name="sdtC" placeholder="Số điện thoại">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Địa chỉ *</label>
                     <div class="col-sm-10">
-                    <textarea class="form-control form-control-lg" placeholder="Địa chỉ giao hàng"></textarea>
+                    <textarea class="form-control form-control-lg" id="diaChi" name="diaChi" placeholder="Địa chỉ giao hàng"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Ghi chú thêm</label>
                     <div class="col-sm-10">
-                    <textarea class="form-control form-control-lg" placeholder="Thông tin thêm"></textarea>
+                    <textarea class="form-control form-control-lg" name="ghiChu" placeholder="Thông tin thêm"></textarea>
+                    <input type="hidden" name="dataOrder" id="dataOrder"></input>
                     </div>
                 </div>
-                <div class="mg-bot-20 text-right"><button type="submit" class="btn hover--primary__Color btn-success btn-lg">ĐẶT HÀNG<i class="ps-icon-next"></i></button></div>
+                <div class="mg-bot-20 text-right">
+                    <button id="btnCheckout" type="submit" class="btn hover--primary__Color btn-success btn-lg">ĐẶT HÀNG<i class="ps-icon-next"></i></button>
+                </div>
             </form>
             </div>
         </div>
     </div>
 </div>
-<?php get_footer(); ?>
+<?php
+get_template_part('sections/process-cart-checkout');
+get_footer(); ?>

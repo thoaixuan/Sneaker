@@ -278,11 +278,10 @@ function getTheFirstImageContent() {
   return $first_img;
 }
 
-// Create the function, so you can use it
+// Create the function, so you can use it>> If the user is on a mobile device, redirect them
 function isMobile() {
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
-// If the user is on a mobile device, redirect them
 
 // Remove update notification
 /*function filter_plugin_updates( $value ) {
@@ -291,24 +290,11 @@ function isMobile() {
 }
 add_filter( 'site_transient_update_plugins', 'filter_plugin_updates' );
 */
-/*function remove_update_notifications( $value ) {
-
-    if ( isset( $value ) && is_object( $value ) ) {
-        unset( $value->response['advanced-custom-fields-pro/acf.php'] )
-        unset( $value->response['revslider/revslider.php'] );
-        unset( $value->response['wordpress-seo-premium/wp-seo-premium.php'] );
-    }
-    return $value;
-}
-add_filter( 'site_transient_update_plugins', 'remove_update_notifications' );
-*/
-
 // Set classic editor
 add_filter( 'use_block_editor_for_post', '__return_false' );
 // End set classic editor
 
 // Su sung file svg
-
 add_filter('upload_mimes','add_custom_mime_types');
 function add_custom_mime_types($mimes) {
 	return array_merge($mimes, array(
@@ -396,7 +382,6 @@ function rd_duplicate_post_as_draft(){
 	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'rd_duplicate_post_as_draft' == $_REQUEST['action'] ) ) ) {
 		wp_die('No post to duplicate has been supplied!');
 	}
- 
 	/*
 	 * Nonce verification
 	 */
@@ -471,8 +456,6 @@ function rd_duplicate_post_as_draft(){
 			$sql_query.= implode(" UNION ALL ", $sql_query_sel);
 			$wpdb->query($sql_query);
 		}
- 
- 
 		/*
 		 * finally, redirect to the edit post screen for the new draft
 		 */
@@ -495,7 +478,6 @@ function rd_duplicate_post_link( $actions, $post ) {
 }
  
 add_filter( 'post_row_actions', 'rd_duplicate_post_link', 10, 2 );
-/*CLEAND IMAGE FROM OLD POST */
 /*--------------------------------- */
 
 /*Dropdown menu*/
@@ -558,73 +540,51 @@ class CSS_Menu_Maker_Walker extends Walker {
       $output .= "</li>\n";
     }
 }
-// Category Panigation
-// function category_pagination() {
+/*Phan trang bai viet */
+// Ham tao phan trang
 
-// 	if( is_singular() ) return;
+if (!function_exists( 'post_Pagination' )){
+    function post_Pagination(){
+        $category = get_queried_object();
+        $cat_id =   $category->term_id;
+        $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : '1';
+        $args = array (
+            'nopaging'               => false,
+            'paged'                  => $paged,
+            'posts_per_page'         => '3',
+            'post_type'              => 'post',
+            'cat' => $cat_id,
+        );
 
-// 	global $wp_query;
+        // The Query
+        $query = new WP_Query( $args );
+        // The Loop
+        if ( $query->have_posts() ) {
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                echo '<div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-4">'.
+                            '<a href="'.get_permalink(get_the_ID()) .'">'.
+                                '<img class="ct-img-post-latest" src="'.get_the_post_thumbnail_url(get_the_ID(), 'post-thumbnail').'">'.
+                                '<div class=""><p class="ct-title-post-latest">'.get_the_title().'</p>'.
+                                    '<p class="ct-date-post-latest"><i class="fa fa-calendar" aria-hidden="true"></i>  '.get_the_date().'</p>'.
+                                    '<span class="ct-excerpt-post-latest">'.get_excerpt_by_id(get_the_ID())."</span>".
+                                    '<span class="text-up">đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></span>'.
+                                '</div>
+                            </a>
 
-// 	/** Stop execution if there's only 1 page */
-// 	if( $wp_query->max_num_pages <= 1 )
-// 		return;
+                    </div>';
+            }
+            echo '<div class="d-inline-block col-codethue-10 paganation-style text-right">';
+            previous_posts_link( '« Trang trước |' );
+            next_posts_link( '| Trang sau »', $query->max_num_pages );
+            echo '</div>';
+        } else {
+            // no posts found
+            echo '<h1 class="page-title screen-reader-text">Không tìm thấy bài viết</h1>';
+        }
 
-// 	$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
-// 	$max   = intval( $wp_query->max_num_pages );
-
-// 	/**	Add current page to the array */
-// 	if ( $paged >= 1 )
-// 		$links[] = $paged;
-
-// 	/**	Add the pages around the current page to the array */
-// 	if ( $paged >= 3 ) {
-// 		$links[] = $paged - 1;
-// 		$links[] = $paged - 2;
-// 	}
-
-// 	if ( ( $paged + 2 ) <= $max ) {
-// 		$links[] = $paged + 2;
-// 		$links[] = $paged + 1;
-// 	}
-
-// 	echo '<div class="navigation navigation-category"><ul>' . "\n";
-
-// 	/**	Previous Post Link */
-// 	if ( get_previous_posts_link() )
-// 		printf( '<li>%s</li>' . "\n", get_previous_posts_link() );
-
-// 	/**	Link to first page, plus ellipses if necessary */
-// 	if ( ! in_array( 1, $links ) ) {
-// 		$class = 1 == $paged ? ' class="active"' : '';
-
-// 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
-
-// 		if ( ! in_array( 2, $links ) )
-// 			echo '<li>...</li>';
-// 	}
-
-// 	/**	Link to current page, plus 2 pages in either direction if necessary */
-// 	sort( $links );
-// 	foreach ( (array) $links as $link ) {
-// 		$class = $paged == $link ? ' class="active"' : '';
-// 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
-// 	}
-
-// 	/**	Link to last page, plus ellipses if necessary */
-// 	if ( ! in_array( $max, $links ) ) {
-// 		if ( ! in_array( $max - 1, $links ) )
-// 			echo '<li>...</li>' . "\n";
-
-// 		$class = $paged == $max ? ' class="active"' : '';
-// 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
-// 	}
-
-// 	/**	Next Post Link */
-// 	if ( get_next_posts_link() )
-// 		printf( '<li>%s</li>' . "\n", get_next_posts_link() );
-
-// 	echo '</ul></div>' . "\n";
-
-// }
-// End category pagination
+        // Restore original Post Data
+        wp_reset_postdata();
+     }
+    }
 /*----------------------------------------------------End---------------------------------------------------------------- */
