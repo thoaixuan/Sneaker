@@ -1,13 +1,12 @@
 <?php
 /**
- * template name: Landing Page Layout Example
+ * template name: TEST PAGE
  */
-wp_reset_query();
-/*get_template_part('landing-pages/inc/header');
-get_template_part('landing-pages/inc/custom-menu');*/
+/*get_template_part('landing-pages/inc/header');*/
+show_product_by_cat(5);
 ?>
 
-Code here
+
 
 
 

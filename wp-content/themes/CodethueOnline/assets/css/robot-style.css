@@ -177,7 +177,7 @@ top: 50%;left: 50%;font-size: 16px; font-weight: 500;color: #ffffff;}
 .hover--primary__Color:hover{color: #fed700; transition: .75s;}
 .text--light{color: #fff;}
 /*>>News*/
-.paganation-style >a {
+.paganation-style>span {
     width: max-content;
     margin-top:20px;
     --border-width: 2.7px;
@@ -185,7 +185,7 @@ top: 50%;left: 50%;font-size: 16px; font-weight: 500;color: #ffffff;}
     padding: 5px;background: #fff;
     border-radius: var(--border-width);
 }
-.paganation-style > a::after {
+.paganation-style>span::after {
     position: absolute;
     content: "";
     top: calc(-1 * var(--border-width));
@@ -199,10 +199,10 @@ top: 50%;left: 50%;font-size: 16px; font-weight: 500;color: #ffffff;}
     border-radius: calc(2 * var(--border-width));
     animation: moveGradient 4s alternate infinite;
   }
-  
   @keyframes moveGradient {
     50% { background-position: 100% 50%; }
 }
+.paganation-style span a {font-weight: bold;padding: 0 5px;}
 
 .ct__latest_news .col-lg-4.col-md-4.col-sm-4.col-12.mb-4:hover .ct-img-post-latest{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}
 @-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}

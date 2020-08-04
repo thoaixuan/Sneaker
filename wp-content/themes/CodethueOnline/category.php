@@ -27,7 +27,7 @@ $cat_name=get_cat_name($cat_id);
                 foreach($recent_posts as $post) : ?>
                 <?php  if($post['post_type'] == 'product') { 
                     /*Display product*/
-                    echo show_product_by_cat($cat_id); 
+                    show_product_by_cat($cat_id);
                 ?>   
                 <?php break;} else { /*Display news */ post_Pagination();} endforeach; wp_reset_query(); ?>
         </div>

@@ -5,8 +5,8 @@
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
- * @subpackage Twenty_Nineteen
- * @since Twenty Nineteen 1.0
+ * @subpackage ThoaiXuan
+ * @since ThoaiXuan
  */
 
 get_header();
@@ -34,14 +34,10 @@ get_header();
 				 * called content-___.php (where ___ is the Post Format name) and that
 				 * will be used instead.
 				 */
-				get_template_part( 'template-parts/content/content', 'excerpt' );
+				echo '113 awd jkawdjkaw awd awkjdakwd awdawd';
 
 				// End the loop.
 			endwhile;
-
-			// Previous/next page navigation.
-			twentynineteen_the_posts_navigation();
-
 			// If no content, include the "No posts found" template.
 		else :
 			get_template_part( 'template-parts/content/content', 'none' );

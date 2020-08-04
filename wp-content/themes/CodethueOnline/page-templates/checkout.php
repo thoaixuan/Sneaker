@@ -16,7 +16,7 @@ get_header(); ?>
                         <div class="col-sm-3">
                         <input type="text" class="form-control form-control-sm" placeholder="Mã ưu đãi nếu có">
                         </div>
-                        <div class="col-sm-3"><button type="submit" class="btn btn-primary mg-bot-20">Xác nhận <i class="fa fa-gift"></i></button></div>
+                        <div class="col-sm-3"><button type="submit" class="btn btn-warning mg-bot-20">Xác nhận <i class="fa fa-gift"></i></button></div>
                     </div>
                     
                 </form>

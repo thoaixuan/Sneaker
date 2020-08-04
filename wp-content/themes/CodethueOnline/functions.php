@@ -61,75 +61,73 @@ function create_posttype() {
 // Hooking up our function to theme setup
 add_action( 'init', 'create_posttype' );
 /*Show product by Category */
-add_action( 'init', 'wpa58471_category_base' );
-function wpa58471_category_base() {
-    add_rewrite_rule(
-        'blog/([^/]+)/page/(\d+)/?$',
-        'index.php?category_name=$matches[1]&paged=$matches[2]',
-        'top' 
-    );
-    add_rewrite_rule( 
-        'blog/([^/]+)/(feed|rdf|rss|rss2|atom)/?$',
-        'index.php?category_name=$matches[1]&feed=$matches[2]', 
-        'top' 
-    );
-}
 function show_product_by_cat($cat_id) {	
 	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : '1';
     global $result;
     $discount=0;
     global $old_price;
     /*Paganation*/
+    global $wp_query, $args;
     $args = array(
         'nopaging'               => false,
         'paged'                  => $paged,
         'post_type'      => 'product',
-        'posts_per_page' => 4,
+        'posts_per_page' => 8,
         'cat' => $cat_id,
     );
-    $loop = new WP_Query($args);
-	if ( $loop->have_posts() && $loop->is_category() ) {
-    while ( $loop->have_posts() ) {
-        $loop->the_post();
-        $result .= '<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">';
-        $result .= '<div class="ct-product__column">';
-        $result .= '<a href="'.get_permalink().'"><div class="pos-rel">';
-        $result .=      '<img class="ct-img-shoes pos-rel" src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" alt="" title="'.get_the_title().'">';
+    query_posts($args);
+	if (have_posts() ) {
+    while ( have_posts() ) {
+       the_post();
+        echo '<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">'.
+       '<div class="ct-product__column">'.
+       '<a href="'.get_permalink().'"><div class="pos-rel">'.
+       '<img class="ct-img-shoes pos-rel" src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" alt="" title="'.get_the_title().'">';
 
         $price_shoes=get_field("price");
         $discount_price=get_field("discount_price");
         $check_product_new = get_field('check-new-shoes');
         $check_product_discount =get_field('discount');
-        if($check_product_new){$result .=  '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
+        if($check_product_new){echo '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
         if($check_product_discount){
             (int)$discount=(($price_shoes-$discount_price)*100)/$price_shoes;
-            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
+            echo'<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
             $price_shoes=get_field("discount_price");
             $old_price ='<del>'.format_Money(get_field("price")).' VNĐ</del>';
         }
         else{$old_price='';}
         
-        $result .= '</div></a>';
-
-        $result .='<div class="ct-shoes-content">';
-        $result .= '<a href="'.get_permalink().'" class="ct-shoes-name text-up">'.get_the_title().'</a>';
-        $result .= '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
-        $result .=  '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
-        
-        $result .='</div>';
-
-        $result .= '</div>';
-        $result .= '</div>';
+        echo'</div></a>'.
+        '<div class="ct-shoes-content">'.
+        '<a href="'.get_permalink().'" class="ct-shoes-name text-up">'.get_the_title().'</a>'.
+        '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
+        echo '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>'.
+             '</div>'.'</div>'.'</div>';
     } 
-    echo '<div class="d-inline-block col-codethue-12 paganation-style text-right">';
-        previous_posts_link( '« Trang trước |' ).next_posts_link( '| Trang sau »', $loop->max_num_pages );
-    echo '</div>';
-    return $result;  
+    echo '<div class="d-inline-block col-codethue-12 paganation-style text-right"><span>';
+    /*   previous_posts_link( '« Trang trước |' ).next_posts_link( '| Trang sau »', $loop->max_num_pages );
+        $big = 999999999;
+    */
+    $big = 999999;
+    echo paginate_links( array(
+        'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),   
+         
+        'format' => '?paged=%#%',
+        'current' => min($paged,1),  
+        'total' =>$wp_query->max_num_pages,
+        'prev_text'=>'<<',
+        'next_text'=>'>>',
+    ) );
+    echo '</span></div>'; 
 	} else {
             // no posts found
             echo '<h1 class="page-title screen-reader-text">Không tìm thấy bài viết</h1>';
         }
     
+}
+function bti_change_posts_per_page(){ return 1; }
+if( preg_match("|\/".get_option('tag_base')."\/.+\/page\/[0-9]+$|i", $_SERVER['REQUEST_URI']) ){
+    add_filter( 'pre_option_posts_per_page' , 'bti_change_posts_per_page');
 }
 /*Show product*/
 function show_Product() {
@@ -145,35 +143,35 @@ function show_Product() {
     $loop = new WP_Query($args);
     while ( $loop->have_posts() ) {
         $loop->the_post();
-        $result .= '<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">';
-        $result .= '<div class="ct-product__column">';
-        $result .= '<a href="'.get_permalink().'"><div class="pos-rel">';
-        $result .=      '<img class="ct-img-shoes pos-rel" src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" alt="" title="'.get_the_title().'">';
+        echo'<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">';
+        echo'<div class="ct-product__column">';
+        echo'<a href="'.get_permalink().'"><div class="pos-rel">';
+        echo     '<img class="ct-img-shoes pos-rel" src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" alt="" title="'.get_the_title().'">';
 
         $price_shoes=get_field("price");
         $discount_price=get_field("discount_price");
         $check_product_new = get_field('check-new-shoes');
         $check_product_discount =get_field('discount');
-        if($check_product_new){$result .=  '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
+        if($check_product_new){echo '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
         if($check_product_discount){
             (int)$discount=(($price_shoes-$discount_price)*100)/$price_shoes;
-            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
+            echo '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
             $price_shoes=get_field("discount_price");
             $old_price ='<del>'.format_Money(get_field("price")).' VNĐ</del>';
         }
         else{$old_price='';}
         
-        $result .= '</div></a>';
+        echo'</div></a>';
 
-        $result .='<div class="ct-shoes-content">';
-        $result .= '<a href="'.get_permalink().'" class="ct-shoes-name text-up">'.get_the_title().'</a>';
-        $result .= '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
-        $result .=  '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
+        echo'<div class="ct-shoes-content">';
+        echo'<a href="'.get_permalink().'" class="ct-shoes-name text-up">'.get_the_title().'</a>';
+        echo'<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
+        echo '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
         
-        $result .='</div>';
+        echo'</div>';
 
-        $result .= '</div>';
-        $result .= '</div>';
+        echo'</div>';
+        echo'</div>';
     }
     /*Paganition */  
     return $result;
@@ -195,32 +193,32 @@ function show_widget_Product(){
     $loop = new WP_Query($args);
     while ( $loop->have_posts() ) {
         $loop->the_post();
-        $result .= '<div class="col-md-12 padding-left-u">';/*col-lg-3 col-md-3 col-sm-3 col-12 mb-3*/
-        $result .= '<div class="ct-product__widget">';
-        $result .= '<div class="col-codethue-3 padding-left-u"><a href="'.get_permalink().'"><div class="pos-rel">';
-        $result .=      '<img src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" class="pos-rel" alt="" title="'.get_the_title().'">';
+        echo'<div class="col-md-12 padding-left-u">';/*col-lg-3 col-md-3 col-sm-3 col-12 mb-3*/
+        echo'<div class="ct-product__widget">';
+        echo'<div class="col-codethue-3 padding-left-u"><a href="'.get_permalink().'"><div class="pos-rel">';
+        echo     '<img src="'.wp_get_attachment_url(get_post_thumbnail_id(), 'thumbnail').'" class="pos-rel" alt="" title="'.get_the_title().'">';
 
         $price_shoes=get_field("price");
         $discount_price=get_field("discount_price");
         $check_product_new = get_field('check-new-shoes');
         $check_product_discount =get_field('discount');
-        if($check_product_new){$result .=  '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
+        if($check_product_new){echo '<div class="ct-new-shoes pos-ab"><span class="pos-ab text-up">new</span></div>';}else{}
         if($check_product_discount){
             (int)$discount=(($price_shoes-$discount_price)*100)/$price_shoes;
-            $result .=  '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
+            echo '<div class="ct-discount-shoes pos-ab"><span class="pos-ab text-up">'.round($discount,0).'%</span></div>'; 
             $price_shoes=get_field("discount_price");
             $old_price ='<del>'.format_Money(get_field("price")).' VNĐ</del>';
         }
         else{$old_price='';}
         
-        $result .= '</div></a></div>';
+        echo'</div></a></div>';
 
-        $result .='<div class="col-codethue-9 padding__left--15 ct-shoes-content">';
-        $result .= '<a href="'.get_permalink().'" class="ct-shoes-name d--block text-up hover--primary__Color">'.get_the_title().'</a>';
-        $result .= '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
-        $result .=  '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
+        echo'<div class="col-codethue-9 padding__left--15 ct-shoes-content">';
+        echo'<a href="'.get_permalink().'" class="ct-shoes-name d--block text-up hover--primary__Color">'.get_the_title().'</a>';
+        echo'<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star un-checked"></span>';
+        echo '<div class="price-product">'.format_Money($price_shoes).' VNĐ'.$old_price.'</div>';
   
-        $result .='</div></div></div>';
+        echo'</div></div></div>';
     }
     /*Paganition */  
     return $result;
