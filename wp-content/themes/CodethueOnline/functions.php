@@ -61,17 +61,34 @@ function create_posttype() {
 // Hooking up our function to theme setup
 add_action( 'init', 'create_posttype' );
 /*Show product by Category */
-function show_product_by_cat($cat_id) {
+add_action( 'init', 'wpa58471_category_base' );
+function wpa58471_category_base() {
+    add_rewrite_rule(
+        'blog/([^/]+)/page/(\d+)/?$',
+        'index.php?category_name=$matches[1]&paged=$matches[2]',
+        'top' 
+    );
+    add_rewrite_rule( 
+        'blog/([^/]+)/(feed|rdf|rss|rss2|atom)/?$',
+        'index.php?category_name=$matches[1]&feed=$matches[2]', 
+        'top' 
+    );
+}
+function show_product_by_cat($cat_id) {	
+	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : '1';
     global $result;
     $discount=0;
     global $old_price;
-    /*$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;*/
+    /*Paganation*/
     $args = array(
+        'nopaging'               => false,
+        'paged'                  => $paged,
         'post_type'      => 'product',
-        'posts_per_page' => 8,
+        'posts_per_page' => 4,
         'cat' => $cat_id,
     );
     $loop = new WP_Query($args);
+	if ( $loop->have_posts() && $loop->is_category() ) {
     while ( $loop->have_posts() ) {
         $loop->the_post();
         $result .= '<div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3">';
@@ -104,7 +121,15 @@ function show_product_by_cat($cat_id) {
         $result .= '</div>';
         $result .= '</div>';
     } 
+    echo '<div class="d-inline-block col-codethue-12 paganation-style text-right">';
+        previous_posts_link( '« Trang trước |' ).next_posts_link( '| Trang sau »', $loop->max_num_pages );
+    echo '</div>';
     return $result;  
+	} else {
+            // no posts found
+            echo '<h1 class="page-title screen-reader-text">Không tìm thấy bài viết</h1>';
+        }
+    
 }
 /*Show product*/
 function show_Product() {
@@ -542,8 +567,8 @@ class CSS_Menu_Maker_Walker extends Walker {
 }
 /*Phan trang bai viet */
 // Ham tao phan trang
-
-if (!function_exists( 'post_Pagination' )){
+if (!function_exists( 'post_Pagination' ))
+{
     function post_Pagination(){
         $category = get_queried_object();
         $cat_id =   $category->term_id;
@@ -574,7 +599,7 @@ if (!function_exists( 'post_Pagination' )){
 
                     </div>';
             }
-            echo '<div class="d-inline-block col-codethue-10 paganation-style text-right">';
+            echo '<div class="d-inline-block col-codethue-12 paganation-style text-right">';
             previous_posts_link( '« Trang trước |' );
             next_posts_link( '| Trang sau »', $query->max_num_pages );
             echo '</div>';
@@ -586,5 +611,6 @@ if (!function_exists( 'post_Pagination' )){
         // Restore original Post Data
         wp_reset_postdata();
      }
-    }
+}
+
 /*----------------------------------------------------End---------------------------------------------------------------- */
